@@ -1,2 +1,4 @@
-./nginx/*
-./redis/*
+/nginx/
+/redis/
+/mysql/
+/php/

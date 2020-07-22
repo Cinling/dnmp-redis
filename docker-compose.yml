@@ -10,6 +10,8 @@ services:
       - ${NGINX_CERT_DIR}:/etc/nginx/cert/:rw
       - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:rw
       - ${NGINX_CONF_FILE}:/etc/nginx/nginx.conf:ro
+      - ${NGINX_DIR}/fastcgi-php.conf:/etc/nginx/fastcgi-php.conf:ro
+      - ${NGINX_DIR}/fastcgi_params:/etc/nginx/fastcgi_params:ro
       - ${NGINX_LOG_DIR}:/var/log/nginx/:rw
     environment:
       TZ: ${TZ}
@@ -17,15 +19,19 @@ services:
     restart: always
     networks:
       - default
-#  php72:
-#    image: bitnami/php-fpm:${PHP_VERSION}
+#  php-cli:
+#    image: php:${PHP_VERSION}-cli
 #    restart: always
-#    volumes:
-#      - ${SOURCE_DIR}:/var/www/html/:rw
-#      - ${PHP_INI_FILE}:/usr/local/etc/php/php.ini:ro
-#      - ${PHP_FMP_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
-#      - ${PHP_LOG_DIR}:/var/log/php
-#    container_name: cinling_php-fpm
+#    container_name: cinling_php-cli
+  php-fpm:
+    image: php:${PHP_VERSION}-fpm
+    restart: always
+    container_name: cinling_php-fpm
+    volumes:
+      - ${SOURCE_DIR}:/var/www/html/:rw
+      - ${PHP_LOG_DIR}:/var/log/php/:rw
+      - ${PHP_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      - ${PHP_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:ro
   mysql:
     image: mysql:${MYSQL_VERSION}
     command: --default-authentication-plugin=mysql_native_password
