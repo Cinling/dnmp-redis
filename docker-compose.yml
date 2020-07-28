@@ -32,6 +32,15 @@ services:
       - ${PHP_LOG_DIR}:/var/log/php/:rw
       - ${PHP_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
       - ${PHP_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:ro
+  php-fpm56:
+    image: php:${PHP56_VERSION}-fpm
+    restart: always
+    container_name: cinling_php-fpm56
+    volumes:
+      - ${SOURCE_DIR}:/var/www/html/:rw
+      - ${PHP56_LOG_DIR}:/var/log/php/:rw
+      - ${PHP56_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      - ${PHP56_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:ro
   mysql:
     image: mysql:${MYSQL_VERSION}
     command: --default-authentication-plugin=mysql_native_password
@@ -39,7 +48,7 @@ services:
       - "${MYSQL_PORT}:3306"
     volumes:
       - ${MYSQL_DIR}:/var/lib:rw
-#      - ${MYSQL_CONF_FILE}:/etc/mysql/my.cnf
+    #      - ${MYSQL_CONF_FILE}:/etc/mysql/my.cnf
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
     networks:
