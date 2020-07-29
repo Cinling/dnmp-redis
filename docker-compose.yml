@@ -69,7 +69,7 @@ services:
     ports:
       - "${MYSQL_PORT}:3306"
     volumes:
-      - ${MYSQL_DIR}:/var/lib:rw
+      - ${MYSQL_DIR}:/var/lib/:rw
     #      - ${MYSQL_CONF_FILE}:/etc/mysql/my.cnf
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
