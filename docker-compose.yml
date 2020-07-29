@@ -65,18 +65,18 @@ services:
       - default
   mysql:
     image: mysql:${MYSQL_VERSION}
-    command: --default-authentication-plugin=mysql_native_password
+    container_name: cinling_mysql
     ports:
       - "${MYSQL_PORT}:3306"
     volumes:
-      - ${MYSQL_DIR}:/var/lib/:rw
-    #      - ${MYSQL_CONF_FILE}:/etc/mysql/my.cnf
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      - ${MYSQL_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
+      - ${DATA_DIR}/mysql:/var/lib/mysql/:rw
+    restart: always
     networks:
       - default
-    container_name: cinling_mysql
-    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
+      TZ: "$TZ"
   redis:
     image: redis:${REDIS_VERSION}
     container_name: cinling_redis
