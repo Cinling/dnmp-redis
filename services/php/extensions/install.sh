@@ -584,7 +584,12 @@ if [[ -z "${EXTENSIONS##*,zip,*}" ]]; then
         docker-php-ext-configure zip --with-libzip=/usr/include
     fi
 
-	docker-php-ext-install ${MC} zip
+	  #docker-php-ext-install ${MC} zip
+	  apk update \
+    && apk upgrade \
+    && apk add zlib-dev \
+    && docker-php-ext-configure zip --with-zlib-dir=/usr \
+    && docker-php-ext-install ${MC} zip
 fi
 
 if [[ -z "${EXTENSIONS##*,xhprof,*}" ]]; then
