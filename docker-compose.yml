@@ -23,6 +23,7 @@ services:
       - ${NGINX_DIR}/fastcgi-php.conf:/etc/nginx/fastcgi-php.conf:ro
       - ${NGINX_DIR}/fastcgi_params:/etc/nginx/fastcgi_params:ro
       - ${NGINX_LOG_DIR}:/var/log/nginx/:rw
+      - ${NGINX_LOGROTATE}:/etc/logrotate.d/nginx:ro
     environment:
       TZ: ${TZ}
     container_name: cinling_nginx
